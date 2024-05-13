@@ -5,7 +5,7 @@ Infinite Scroll Using JS
 const apiKey = '';
 
 
-To create reverse proxy (Note to Myself - Not used/Removed the implementation in this project):
+# To create reverse proxy (Note to Myself - Not used/Removed the implementation in this project):
 
 brew tap heroku/brew && brew install heroku
 
