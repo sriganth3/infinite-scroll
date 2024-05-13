@@ -4,9 +4,24 @@ const loader = document.getElementById('loader');
 let photosArray = [];
 
 const count = 10;
-// const apiKey = '';
-
+const apiKey = '';
 const apiUrl = `https://api.unsplash.com/photos/random/?client_id=${apiKey}&count=${count}`;
+
+let ready = false;
+let imagesLoaded = 0;
+let totalImages = 0;
+
+function imageLoaded(){
+    console.log('images Loaded')
+    imagesLoaded++;
+    console.log(totalImages);
+    console.log(imagesLoaded);
+    if(imagesLoaded == totalImages){
+        ready = true;
+        console.log('ready= ', ready);
+        loader.hidden = true;
+    }
+}
 
 function setAttributes(element, attributes){
     for(const key in attributes){
@@ -16,6 +31,10 @@ function setAttributes(element, attributes){
 
 
 function displayPhotos(){
+    // console.log('photos array', photosArray);
+    totalImages = photosArray.length;
+    imagesLoaded = 0;
+
     photosArray.forEach((photo) => {
         // create link to unSplash
         const item = document.createElement('a');
@@ -45,6 +64,8 @@ function displayPhotos(){
             'alt' : photo.alt_description,
             'title': photo.alt_description
         })
+
+        img.addEventListener('load', imageLoaded);
         
         item.appendChild(img);
         imageContainer.appendChild(item);
@@ -54,6 +75,10 @@ function displayPhotos(){
 async function getPhotos(){
     try {
         const response = await fetch(apiUrl);
+        // const pics = await response.json();
+        // console.log(pics);
+        // photosArray.push(... pics);
+
         photosArray = await response.json();
         console.log(photosArray);
         displayPhotos();
@@ -61,5 +86,16 @@ async function getPhotos(){
         console.error("error", error);
     }
 }
+
+
+window.addEventListener('scroll', () => {
+    console.log('scrolled');
+    if(window.innerHeight + window.scrollY >= document.body.offsetHeight - 1000
+            && ready){
+        ready = false;
+        getPhotos();
+        console.log('load more');
+    }
+})
 
 getPhotos();
