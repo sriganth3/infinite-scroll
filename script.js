@@ -29,35 +29,21 @@ function setAttributes(element, attributes){
     }
 }
 
-
 function displayPhotos(){
-    // console.log('photos array', photosArray);
     totalImages = photosArray.length;
     imagesLoaded = 0;
 
     photosArray.forEach((photo) => {
         // create link to unSplash
         const item = document.createElement('a');
-        
-        // console.info(photo.links.html);
-        
-        // item.setAttribute('href', photo.links.html);
-        // item.setAttribute('target', '_blank');
 
         setAttributes(item, {
             'href': photo.links.html,
             'target': '_blank'
         });
 
-
         // create image for photo
         const img = document.createElement('img');
-
-        // console.log(photo.alt_description);
-        
-        // img.setAttribute('src', photo.urls.regular);
-        // img.setAttribute('alt', photo.alt_description);
-        // img.setAttribute('title', photo.alt_description);
 
         setAttributes(img, {
             'src': photo.urls.regular,
@@ -75,12 +61,8 @@ function displayPhotos(){
 async function getPhotos(){
     try {
         const response = await fetch(apiUrl);
-        // const pics = await response.json();
-        // console.log(pics);
-        // photosArray.push(... pics);
 
         photosArray = await response.json();
-        console.log(photosArray);
         displayPhotos();
     }catch(error){
         console.error("error", error);
