@@ -18,3 +18,6 @@ npm install
 heroku create
 
 heroku push
+
+# Command to start the app
+npx serve
